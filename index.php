@@ -117,7 +117,7 @@ if(isset($_POST['loginForm'])){
 				if(isset($_POST['remember'])){
 					$token = sha1(md5(uniqid().$_SERVER['REMOTE_ADDR']));
 					setcookie('remember',$token, time()+60*60+24);
-					$db->query('UPDATE FROM user SET token = $token WHERE id ='.$user['id']);
+					$db->query('UPDATE user SET token = $token WHERE id ='.$user['id']);
 				}
 				$_SESSION['id'] = $user['id'];
 				$_SESSION['login'] = $user['login'];
