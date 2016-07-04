@@ -3,8 +3,23 @@ require 'config.php';
 var_dump($_SESSION);
 $_SESSION['IP'] = $_SERVER['REMOTE_ADDR'];
 
-setcookie('cookie', 'test', time()+60*60*24*365, '/cours/36auth', 'localhost', FALSE, TRUE);
-var_dump($_COOKIE);
+// setcookie('cookie', 'test', time()+60*60*24*365, '/cours/36auth', 'localhost', FALSE, TRUE);
+// var_dump($_COOKIE);
+
+if(!isset($_SESSION['id']) && !isset($_SESSION['login'])){
+	if(isset($_COOKIE['remember'])){
+		$token = $_COOKIE['remember'];
+		$query = $db->query("SELECT * FROM user WHERE token = '$token'");
+		$user = $query->fetch();
+		// Si le token existe bien dans la base
+		if($query->rowCount()){
+			$_SESSION['id'] = $user['id'];
+			$_SESSION['login'] = $user['login'];
+		}else{
+			echo "Vous avez essayer de tricher";
+		}
+	}
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -117,7 +132,7 @@ if(isset($_POST['loginForm'])){
 				if(isset($_POST['remember'])){
 					$token = sha1(md5(uniqid().$_SERVER['REMOTE_ADDR']));
 					setcookie('remember',$token, time()+60*60+24);
-					$db->query('UPDATE user SET token = $token WHERE id ='.$user['id']);
+					$db->query("UPDATE user SET token = '$token' WHERE id =".$user['id']);
 				}
 				$_SESSION['id'] = $user['id'];
 				$_SESSION['login'] = $user['login'];
