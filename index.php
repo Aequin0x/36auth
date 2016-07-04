@@ -52,7 +52,7 @@ if(!isset($_SESSION['id'])){
 	<div>
 		<label>Password :</label>
 		<br>
-		<input type="text" name="password">
+		<input type="password" name="password">
 	</div>
 	<input type="checkbox" name="remember">Se souvenir de moi
 	<div>
@@ -117,7 +117,7 @@ if(isset($_POST['loginForm'])){
 				if(isset($_POST['remember'])){
 					$token = sha1(md5(uniqid().$_SERVER['REMOTE_ADDR']));
 					setcookie('remember',$token, time()+60*60+24);
-					$db->query('UPDATE FROM user SET token = $token WHERE id ='$user['id']);
+					$db->query('UPDATE FROM user SET token = $token WHERE id ='.$user['id']);
 				}
 				$_SESSION['id'] = $user['id'];
 				$_SESSION['login'] = $user['login'];
