@@ -14,4 +14,9 @@ $options_db = array(
 );
 
 $db = new PDO("mysql:host=".HOST.";dbname=".DB, USER, PASS, $options_db);
+
+session_start();
+
+$url = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+$url = preg_replace('/\?.*/', '', $url);
 ?>

@@ -1,4 +1,8 @@
-<?php require "config.php" ?>
+<?php 
+require 'config.php';
+var_dump($_SESSION);
+$_SESSION['IP'] = $_SERVER['REMOTE_ADDR'];
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +10,12 @@
 	<title>Connexion session</title>
 </head>
 <body>
+
+<?php 
+
+if(!isset($_SESSION['id'])){ 
+
+?>
 
 		<form method="POST">
 			<label>Login :</label>
@@ -30,6 +40,27 @@
 </body>
 </html>
 
+<form method="POST">
+	<div>
+		<label>Login :</label>
+		<br>
+		<input type="text" name="login">
+	</div>
+	<div>
+		<label>Password :</label>
+		<br>
+		<input type="text" name="password">
+	</div>
+	<div>
+		<button name="loginForm">Se connecter</button>
+	</div>
+</form>
+
+<?php }else{ ?>
+	Bonjour <?php echo $_SESSION['login']; ?>.
+	<a href="logout.php">Se deconnecter</a>
+<?php } ?>
+
 <?php
 // FORMULAIRE SEND //
 
@@ -51,21 +82,7 @@ var_dump(password_verify("test", $crypt));
 	}
 ?>
 
-<form method="POST">
-	<div>
-		<label>Login :</label>
-		<br>
-		<input type="text" name="login">
-	</div>
-	<div>
-		<label>Password :</label>
-		<br>
-		<input type="text" name="password">
-	</div>
-	<div>
-		<button name="loginForm">Se connecter</button>
-	</div>
-</form>
+
 
 <?php 
 if(isset($_POST['loginForm'])){
@@ -80,7 +97,10 @@ if(isset($_POST['loginForm'])){
 			$user = $query->fetch();
 			$valid= password_verify($password, $user['password']);
 			if($valid){
-				echo "SESSION";
+				$_SESSION['id'] = $user['id'];
+				$_SESSION['login'] = $user['login'];
+				header("Location: ".$url);
+				echo "ONLINE";
 			}else{
 				echo "Le mot de passe n'est pas correct.";
 			}
