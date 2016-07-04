@@ -30,15 +30,27 @@
 </body>
 </html>
 
-<?php 
-	$date = time();
+<?php
+// FORMULAIRE SEND //
+
+	// TEST POUR LE CRYPTAGE
+/*$crypt = password_hash(trim(" test "), PASSWORD_DEFAULT);
+var_dump(password_verify("test", $crypt));
+*/
 	if(isset($_POST['send'])){
+		$date = time();
+		$password = password_hash(trim($_POST['password']), PASSWORD_DEFAULT);
+
 		$query= $db->prepare("INSERT INTO user(login, email, password, date) VALUES(:login, :email, :password, :date)");
 		$query->bindValue(":login", $_POST['send'], PDO::PARAM_STR);
 		$query->bindValue(":email", $_POST['email'], PDO::PARAM_STR);
-		$query->bindValue(":password", $_POST['password'], PDO::PARAM_STR);
+		$query->bindValue(":password", $password, PDO::PARAM_STR);
 		$query->bindValue(":date", $date, PDO::PARAM_INT);
 		$query->execute();
 		echo "Ok";
 	}
 ?>
+
+<form method="POST">
+	
+</form>
