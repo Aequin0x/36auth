@@ -31,12 +31,13 @@
 </html>
 
 <?php 
+	$date = time();
 	if(isset($_POST['send'])){
-		$query= $db->prepare("INSERT INTO user(login, email, password, cf_password VALUES(:login, :email, :password, :cf_password");
+		$query= $db->prepare("INSERT INTO user(login, email, password, date) VALUES(:login, :email, :password, :date)");
 		$query->bindValue(":login", $_POST['send'], PDO::PARAM_STR);
 		$query->bindValue(":email", $_POST['email'], PDO::PARAM_STR);
 		$query->bindValue(":password", $_POST['password'], PDO::PARAM_STR);
-		$query->bindValue(":cf_password", $_POST['cf_password'], PDO::PARAM_STR);
+		$query->bindValue(":date", $date, PDO::PARAM_INT);
 		$query->execute();
 		echo "Ok";
 	}
