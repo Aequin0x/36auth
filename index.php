@@ -102,7 +102,7 @@ var_dump(password_verify("test", $crypt));
 			$query->bindValue(":email", $email, PDO::PARAM_STR);
 			$query->bindValue(":password", $password, PDO::PARAM_STR);
 			$query->bindValue(":date", $date, PDO::PARAM_INT);
-			// On execute la requête et si elle fonction elle renvoie true
+			// On execute la requête et si elle fonctionne elle renvoie true
 			if($query->execute()){
 				$_SESSION['id'] = $db->lastInsertId();
 				$_SESSION['login'] = $login;
