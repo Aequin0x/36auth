@@ -34,6 +34,7 @@ if(!isset($_SESSION['id']) && !isset($_SESSION['login'])){
 if(!isset($_SESSION['id'])){ 
 
 ?>
+<!-- FORMULAIRE D'INSCRIPTION -->
 
 		<form method="POST">
 			<label>Login :</label>
@@ -57,6 +58,8 @@ if(!isset($_SESSION['id'])){
 <br>
 </body>
 </html>
+
+<!-- FORMULAIRE DE CONNEXION -->
 
 <form method="POST">
 	<div>
