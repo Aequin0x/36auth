@@ -1,4 +1,7 @@
 <?php
+
+require 'vendor/autoload.php';
+
 /*
  * Connexion à la base de données
 */

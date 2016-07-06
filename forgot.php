@@ -62,12 +62,24 @@ if(isset($_POST['forget'])){
 	$checkUser->bindValue(":login", $login, PDO::PARAM_STR);
 	$checkUser->execute();
 	if($checkUser->rowCount()){
+		$user = $checkUser->fetch();
 		$forget = sha1(md5(uniqid(rand(), true)));
 		$now = new Datetime();
 		$now->modify("+3 day");
 		$date = $now->format('Y-m-d H:i:s');
 		$db->query("UPDATE user SET forget = '$forget' WHERE login = '".$login."'");
-		echo "Bonjour ".$login.", vous pouvez redefinir votre mot de passe sur <a href='".$url."?forgetToken=".$forget."'>".$url."?forgetToken=".$forget."</a>";
+			// PHP MAILER
+				$mail = new PHPMailer();
+				$mail->setFrom('no-reply@localhost.com', 'Admin Localhost');
+				$mail->addAddress($user['email']);
+				$mail->isHTML(true);
+				$mail->Subject = 'Oubli de mot de passe.';
+				$mail->Body = "Bonjour ".$login.", vous pouvez redefinir votre mot de passe sur <a href='".$url."?forgetToken=".$forget."'>".$url."?forgetToken=".$forget."</a>";
+				if($mail->send){
+					"Vous allez recevoir un lien pour redefinir votre mot de passe";
+				}else {
+					"WARNING";
+				}
 	}else{
 		echo "L'utilisateur n'existe pas";
 		
