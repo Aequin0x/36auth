@@ -1,5 +1,17 @@
 <?php 
 require 'config.php';
+
+// Pour avoir les changements directement au f5 pas besoin de deco/reco
+function getUser(){
+	global $db;
+	if(isset($_SESSION['id'])){
+		$userId = $_SESSION['id'];
+		$query = $db->query('SELECT login, email, role FROM user WHERE id ='.$userId);
+		$_SESSION['user'] = $query->fetch();
+		return $_SESSION['user'];
+	}
+}
+getUser();
 var_dump($_SESSION);
 $_SESSION['IP'] = $_SERVER['REMOTE_ADDR'];
 
