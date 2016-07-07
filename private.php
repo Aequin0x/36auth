@@ -9,7 +9,7 @@ function getUser(){
 		return $_SESSION['user'];
 	}
 }
-if(getUser()['role']=='admin'){
+if(getUser()['role']=='1'){
 	echo "Bienvenu sur votre BACK OFFICE";
 }else{
 	header('HTTP/1.0 403 Forbidden');
